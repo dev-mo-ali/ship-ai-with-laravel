@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('title');
             $table->text('content');
             $table->string('category');
-            $table->vector('embedding', dimensions: 1536)->nullable()->index();
+            $table->vector('embedding', dimensions: 768)->nullable()->index();
             $table->timestamps();
         });
     }

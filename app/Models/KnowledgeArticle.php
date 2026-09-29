@@ -6,6 +6,8 @@ use Database\Factories\KnowledgeArticleFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Ai\Embeddings;
+use Illuminate\Database\Eloquent\Casts\AsVector;
+
 
 class KnowledgeArticle extends Model
 {
@@ -23,6 +25,7 @@ class KnowledgeArticle extends Model
     {
         return [
             'embedding' => 'array',
+            //   'embedding' =>AsVector::class,
         ];
     }
 

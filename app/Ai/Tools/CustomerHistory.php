@@ -7,7 +7,7 @@ use Illuminate\Contracts\JsonSchema\JsonSchema;
 use Laravel\Ai\Contracts\Tool;
 use Laravel\Ai\Tools\Request;
 use Stringable;
-
+use Illuminate\Support\Facades\Log;
 class CustomerHistory implements Tool
 {
     /**
@@ -23,6 +23,9 @@ class CustomerHistory implements Tool
      */
     public function handle(Request $request): Stringable|string
     {
+        Log::info('
+        used tool history
+        ');
         $user = User::where('email', $request['email'])->first();
 
         if (! $user) {
@@ -33,7 +36,7 @@ class CustomerHistory implements Tool
             ->latest()
             ->take(5)
             ->get()
-            ->map(fn ($order) => [
+            ->map(fn($order) => [
                 'order_id' => $order->id,
                 'status' => $order->status,
                 'total' => $order->total,

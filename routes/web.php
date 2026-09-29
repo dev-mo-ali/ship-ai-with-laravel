@@ -21,6 +21,7 @@ Route::get('/support/test', function () {
         'completion_tokens' => $response->usage->completionTokens,
         'provider' => $response->meta->provider,
         'model' => $response->meta->model,
+
     ];
 });
 
@@ -96,7 +97,7 @@ Route::get('/kb/search', function () {
         ->limit(3)
         ->get();
 
-    return $results->map(fn ($article) => [
+    return $results->map(fn($article) => [
         'title' => $article->title,
         'category' => $article->category,
         'excerpt' => str($article->content)->limit(100),
@@ -116,7 +117,10 @@ Route::get('/support/rag-test', function () {
     $response = $agent->forUser($user)->prompt('My order #1042 arrived damaged. What should I do?
     ');
 
-    return $response->text;
+    return [
+        'answer' => $response->text,
+        //   'response' => $response
+    ];
 });
 
 Route::post('/chat/stream', [ChatController::class, 'stream'])->middleware('auth');
@@ -145,4 +149,4 @@ Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

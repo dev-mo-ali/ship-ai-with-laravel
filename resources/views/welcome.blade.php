@@ -27,6 +27,54 @@
                         @endif
                     </header>
 
+                    <nav aria-label="Application navigation" class="rounded-lg bg-white p-6 shadow-sm ring-1 ring-black/5 dark:bg-zinc-900 dark:ring-zinc-800">
+                        <h2 class="text-lg font-semibold text-black dark:text-white">Explore the app</h2>
+                        <ul class="mt-4 flex flex-wrap gap-2">
+                            @foreach ([
+                                'Home' => url('/'),
+                                'Support Test' => url('/support/test'),
+                                'Classifier Test' => url('/classify/test'),
+                                'Memory Test' => url('/memory/problem'),
+                                'Start Chat' => url('/chat/start'),
+                                'Resume Chat' => url('/chat/resume'),
+                                'Knowledge Search' => url('/kb/search'),
+                                'Knowledge Support Test' => url('/support/kb-test'),
+                                'RAG Test' => url('/support/rag-test'),
+                                'Web Support Test' => url('/support/web-test'),
+                                'Chat' => route('chat'),
+                                'Dashboard' => route('dashboard'),
+                                'Profile' => route('profile'),
+                            ] as $label => $href)
+                                <li>
+                                    <a href="{{ $href }}" @if ($label === 'Home') aria-current="page" @endif class="inline-flex rounded-md bg-gray-100 px-3 py-2 text-sm font-semibold text-black transition hover:bg-[#FF2D20]/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FF2D20] dark:bg-zinc-800 dark:text-white dark:hover:bg-zinc-700">{{ $label }}</a>
+                                </li>
+                            @endforeach
+                        </ul>
+
+                        <form id="continue-chat-form" data-base-url="{{ url('/chat/continue') }}" class="mt-6 border-t border-gray-200 pt-4 dark:border-zinc-700">
+                            <label for="conversation-id" class="block text-sm font-semibold text-black dark:text-white">Continue Chat</label>
+                            <div class="mt-2 flex flex-col gap-3 sm:flex-row">
+                                <input id="conversation-id" name="conversation_id" type="text" required pattern=".*\S.*" autocomplete="off" placeholder="Conversation ID" aria-describedby="conversation-id-help" class="min-w-0 flex-1 rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-black focus:border-[#FF2D20] focus:ring-[#FF2D20] dark:border-zinc-600 dark:bg-zinc-800 dark:text-white" />
+                                <button type="submit" class="rounded-md bg-[#FF2D20] px-4 py-2 text-sm font-semibold text-white hover:bg-red-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FF2D20]">Continue Chat</button>
+                            </div>
+                            <p id="conversation-id-help" class="mt-2 text-sm">Enter the conversation ID returned by Start Chat.</p>
+                        </form>
+                    </nav>
+
+                    <script>
+                        document.getElementById('continue-chat-form').addEventListener('submit', function (event) {
+                            event.preventDefault();
+                            const input = this.elements.conversation_id;
+                            input.value = input.value.trim();
+
+                            if (!this.reportValidity()) {
+                                return;
+                            }
+
+                            window.location.assign(this.dataset.baseUrl + '/' + encodeURIComponent(input.value));
+                        });
+                    </script>
+
                     <main class="mt-6">
                         <div class="grid gap-6 lg:grid-cols-2 lg:gap-8">
                             <a

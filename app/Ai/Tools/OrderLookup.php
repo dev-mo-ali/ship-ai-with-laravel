@@ -8,7 +8,7 @@ use Illuminate\Contracts\JsonSchema\JsonSchema;
 use Laravel\Ai\Contracts\Tool;
 use Laravel\Ai\Tools\Request;
 use Stringable;
-
+use Illuminate\Support\Facades\Log;
 use function GuzzleHttp\json_encode;
 
 class OrderLookup implements Tool
@@ -28,6 +28,7 @@ class OrderLookup implements Tool
      */
     public function handle(Request $request): Stringable|string
     {
+        Log::info('used tool OrderLookup');
         $query = Order::with('user')
             ->where('id', $request['order_id']);
 

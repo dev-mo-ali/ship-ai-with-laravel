@@ -23,6 +23,7 @@ class EnsureSafePrompt
                 'prompt' => str($prompt->prompt)->limit(200),
             ]);
 
+            abort(403, 'You do not have permission to ask about this order status');
             throw new \RuntimeException(
                 'Your message could not be processed. Please rephrase your question about orders, shipping, returns, or account issues.'
             );
